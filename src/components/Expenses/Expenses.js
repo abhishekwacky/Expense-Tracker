@@ -1,44 +1,46 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
 import ExpenseItem from "./ExpenseItem";
 import Card from "../UI/Card";
-import './Expenses.css'
+import "./Expenses.css";
 import ExpensesFilter from "./ExpensesFilter";
 
-function Expenses(props){
+function Expenses(props) {
+  const [filteredYear, setFilteredYear] = useState("2020");
 
-    const [filteredYear, setFilteredYear] = useState('2020');
+  const filterChangeHandler = (selectedYear) => {
+    setFilteredYear(selectedYear);
+  };
 
-    const filterChangeHandler = selectedYear =>{
-      setFilteredYear(selectedYear);
-    }
+  const filteredExpense = props.item.filter((value)=> {
+    return value.date.getFullYear().toString() === filteredYear ;
+  })
 
-    return(
-    <div>       
-    <Card className="expenses">
-    <ExpensesFilter selected={filteredYear} onChangeFilter = {filterChangeHandler}/>
-        <ExpenseItem
-        title={props.item[0].title}
-        amount={props.item[0].amount}
-        date={props.item[0].date}
-      />
-      <ExpenseItem
-        title={props.item[1].title}
-        amount={props.item[1].amount}
-        date={props.item[1].date}
-      />
-      <ExpenseItem
-        title={props.item[2].title}
-        amount={props.item[2].amount}
-        date={props.item[2].date}
-      />
-      <ExpenseItem
-        title={props.item[3].title}
-        amount={props.item[3].amount}
-        date={props.item[3].date}
-      />
-    </Card>
+  return (
+    <div>
+      <Card className="expenses">
+        <ExpensesFilter
+          selected={filteredYear}
+          onChangeFilter={filterChangeHandler}
+        />
+        {/* {props.item.filter((value)=> value.date.year === filteredYear ? 
+          <ExpenseItem
+          key={value.id}
+          title={value.title}
+          amount={value.amount}
+          date={value.date}
+        />:<></>
+        )} */}
+        {filteredExpense.map((expense) => (
+          <ExpenseItem
+            key={expense.id}
+            title={expense.title}
+            amount={expense.amount}
+            date={expense.date}
+          />
+        ))}
+      </Card>
     </div>
-    )
+  );
 }
 
 export default Expenses;
