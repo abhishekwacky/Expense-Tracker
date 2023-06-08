@@ -14,6 +14,7 @@ function NewExpense(props){
     }
 
     return <div className='new-expense'>
+        <button>Add New Expenses</button>
         <ExpenseForm onSaveExpenseData={saveExpenseHandler}/>
     </div>
 }
